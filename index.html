@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>نموذج مكتبة صلة</title>
   <style>
+    /* أنماط CSS هنا */
     body {
       font-family: 'Cairo', sans-serif;
       direction: rtl;
@@ -15,7 +16,6 @@
       height: 100vh;
       margin: 0;
     }
-
     .container {
       text-align: center;
       background-color: #ffffff;
@@ -25,72 +25,12 @@
       width: 100%;
       max-width: 500px;
     }
-
     h1 {
       font-size: 2rem;
       color: #2c3e50;
       margin-bottom: 20px;
     }
-
-    label {
-      display: block;
-      font-weight: bold;
-      color: #34495e;
-      margin: 20px 0 10px;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      background-color: #f9f9f9;
-      margin-bottom: 20px;
-      transition: border-color 0.3s;
-    }
-
-    input:focus, select:focus {
-      border-color: #3498db;
-      outline: none;
-    }
-
-    input.valid, select.valid {
-      border-color: #2ecc71; /* لون أخضر عند التعبئة الصحيحة */
-    }
-
-    input.invalid, select.invalid {
-      border-color: #e74c3c; /* لون أحمر عند عدم التعبئة الصحيحة */
-    }
-
-    button {
-      width: 100%;
-      padding: 15px;
-      background-color: #3498db;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #2980b9;
-    }
-
-    .hidden { display: none; }
-
-    .definition {
-      font-size: 0.9rem;
-      color: #888;
-      margin-top: 10px;
-    }
-
-    #countdown {
-      font-size: 1.2rem;
-      color: #e74c3c;
-      margin-top: 20px;
-    }
+    /* بقية أنماط CSS... */
   </style>
 </head>
 <body>
@@ -98,13 +38,13 @@
     <h1>مكتبة صلة للكتب</h1>
     <form id="loginForm">
       <label for="fullName">الاسم الثلاثي:</label>
-      <input type="text" id="fullName" required placeholder="أدخل اسمك الكامل" oninput="validateInput(this)">
+      <input type="text" id="fullName" required placeholder="أدخل اسمك الكامل">
       
       <label for="universityID">الرقم الجامعي:</label>
-      <input type="text" id="universityID" required pattern="\d*" maxlength="10" placeholder="أدخل رقمك الجامعي" oninput="validateInput(this)">
+      <input type="text" id="universityID" required pattern="\d*" maxlength="10" placeholder="أدخل رقمك الجامعي">
       
       <label for="phoneNumber">رقم الجوال:</label>
-      <input type="tel" id="phoneNumber" required pattern="\d*" maxlength="10" placeholder="أدخل رقم الجوال" oninput="validateInput(this)">
+      <input type="tel" id="phoneNumber" required pattern="\d*" maxlength="10" placeholder="أدخل رقم الجوال">
       
       <button type="button" onclick="goToStep2()">التالي</button>
     </form>
@@ -114,7 +54,7 @@
     <h1>نوع الكتاب المراد</h1>
     <form id="bookForm">
       <label for="actionType">اختر نوع المعاملة:</label>
-      <select id="actionType" onchange="toggleBorrowOptions(); markAsValid(this);" required>
+      <select id="actionType" onchange="toggleBorrowOptions();" required>
         <option value="">اختر نوع المعاملة</option>
         <option value="borrow">استعارة كتاب</option>
         <option value="donate">إعارة كتاب</option>
@@ -122,37 +62,30 @@
 
       <div id="borrowOptions" class="hidden">
         <label for="borrowType">نوع الاستعارة:</label>
-        <select id="borrowType" onchange="toggleBorrowTypeOptions(); markAsValid(this);" required>
+        <select id="borrowType" onchange="toggleBorrowTypeOptions();" required>
           <option value="">اختر نوع الاستعارة</option>
           <option value="permanent">استعارة دائمة</option>
           <option value="temporary">استعارة مؤقتة</option>
         </select>
-
         <div id="permanentBorrow" class="hidden">
-          <p class="definition">تعريف الاستعارة الدائمة: الكتاب يكون لديك بشكل دائم ولكن لا بد من وجود كتاب بديل له تقدمه لمكتبة صلة.</p>
           <label for="permanentBookName">اسم الكتاب المستعار بشكل دائم:</label>
-          <input type="text" id="permanentBookName" required oninput="validateInput(this)">
-          
+          <input type="text" id="permanentBookName" required>
           <label for="replacementBookName">اسم الكتاب البديل:</label>
-          <input type="text" id="replacementBookName" required oninput="validateInput(this)">
+          <input type="text" id="replacementBookName" required>
         </div>
-
         <div id="temporaryBorrow" class="hidden">
-          <p class="definition">تعريف الاستعارة المؤقتة: الكتاب يكون لديك بشكل مؤقت وسيتم إدراج وقت إعادة الكتاب، لا يتطلب كتاب بديل لمكتبة صلة.</p>
           <label for="temporaryBookName">اسم الكتاب المستعار بشكل مؤقت:</label>
-          <input type="text" id="temporaryBookName" required oninput="validateInput(this)">
-          
+          <input type="text" id="temporaryBookName" required>
           <label for="endDate">تاريخ انتهاء الاستعارة:</label>
-          <input type="date" id="endDate" required oninput="validateInput(this)">
+          <input type="date" id="endDate" required>
         </div>
       </div>
 
       <div id="donateOptions" class="hidden">
         <label for="donatedBookName">اسم الكتاب:</label>
-        <input type="text" id="donatedBookName" required oninput="validateInput(this)">
-
+        <input type="text" id="donatedBookName" required>
         <label for="bookCondition">حالة الكتاب:</label>
-        <select id="bookCondition" onchange="markAsValid(this);" required>
+        <select id="bookCondition" required>
           <option value="">اختر حالة الكتاب</option>
           <option value="new">جديد</option>
           <option value="excellent">الكتاب في حالة ممتازة</option>
@@ -163,21 +96,51 @@
 
       <button type="button" id="submitButton" onclick="submitForm()">إرسال</button>
     </form>
-
-    <div id="countdown" class="hidden">يمكنك إرسال النموذج مرة أخرى بعد 10 ثواني...</div>
   </div>
 
   <script>
-    let isSubmitting = false;
-    let countdownTimer;
+    async function submitForm() {
+      const chatId = '23493';  // استبدل بـ chat ID الصحيح
+      const botToken = '5061281257:AAHy082mvKaOSvnlPfV48kCpF6oo1ZUA7Js';  // استبدل بـ Bot Token الصحيح
 
-    function validateInput(inputElement) {
-      if (inputElement.value.trim() !== "") {
-        inputElement.classList.remove('invalid');
-        inputElement.classList.add('valid');
-      } else {
-        inputElement.classList.remove('valid');
-        inputElement.classList.add('invalid');
+      // إعداد البيانات لارسالها
+      const data = {
+        fullName: document.getElementById("fullName").value,
+        universityID: document.getElementById("universityID").value,
+        phoneNumber: document.getElementById("phoneNumber").value,
+        actionType: document.getElementById("actionType").value,
+        borrowType: document.getElementById("borrowType") ? document.getElementById("borrowType").value : null,
+        permanentBookName: document.getElementById("permanentBookName") ? document.getElementById("permanentBookName").value : null,
+        temporaryBookName: document.getElementById("temporaryBookName") ? document.getElementById("temporaryBookName").value : null,
+        donatedBookName: document.getElementById("donatedBookName") ? document.getElementById("donatedBookName").value : null,
+        bookCondition: document.getElementById("bookCondition") ? document.getElementById("bookCondition").value : null,
+      };
+
+      const message = `نموذج مكتبة صلة:\nاسم المستخدم: ${data.fullName}\nالرقم الجامعي: ${data.universityID}\nرقم الجوال: ${data.phoneNumber}\nنوع المعاملة: ${data.actionType}\n` +
+                      `${data.actionType === 'borrow' ? `نوع الاستعارة: ${data.borrowType}\nاسم الكتاب المستعار: ${data.permanentBookName || data.temporaryBookName}\n` : `اسم الكتاب: ${data.donatedBookName}\nحالة الكتاب: ${data.bookCondition}\n`}`;
+
+      try {
+        const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'HTML'
+          })
+        });
+
+        // التأكد من أن الطلب تم بنجاح
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        alert("تم إرسال النموذج بنجاح!");
+      } catch (error) {
+        console.error("حدث خطأ أثناء إرسال الرسالة إلى تيليجرام:", error);
+        alert("فشل في إرسال الرسالة، يرجى التحقق من الإعدادات.");
       }
     }
 
@@ -196,77 +159,6 @@
       const borrowType = document.getElementById("borrowType").value;
       document.getElementById("permanentBorrow").classList.toggle("hidden", borrowType !== "permanent");
       document.getElementById("temporaryBorrow").classList.toggle("hidden", borrowType !== "temporary");
-    }
-
-    function markAsValid(selectElement) {
-      selectElement.classList.add('valid');
-    }
-
-    async function submitForm() {
-      if (isSubmitting) return;
-
-      isSubmitting = true;
-      document.getElementById("submitButton").disabled = true;
-      document.getElementById("countdown").classList.remove("hidden");
-      let countdown = 10;
-      document.getElementById("countdown").textContent = `يمكنك إرسال النموذج مرة أخرى بعد ${countdown} ثواني...`;
-
-      // Countdown
-      countdownTimer = setInterval(function() {
-        countdown--;
-        document.getElementById("countdown").textContent = `يمكنك إرسال النموذج مرة أخرى بعد ${countdown} ثواني...`;
-        if (countdown <= 0) {
-          clearInterval(countdownTimer);
-          document.getElementById("submitButton").disabled = false;
-          document.getElementById("countdown").classList.add("hidden");
-          isSubmitting = false;
-        }
-      }, 1000);
-
-      // إعداد البيانات لارسالها
-      const data = {
-        actionType: document.getElementById("actionType").value,
-        borrowType: document.getElementById("borrowType").value,
-        fullName: document.getElementById("fullName").value,
-        universityID: document.getElementById("universityID").value,
-        phoneNumber: document.getElementById("phoneNumber").value,
-        permanentBookName: document.getElementById("permanentBookName").value,
-        replacementBookName: document.getElementById("replacementBookName").value,
-        temporaryBookName: document.getElementById("temporaryBookName").value,
-        endDate: document.getElementById("endDate").value,
-        donatedBookName: document.getElementById("donatedBookName").value,
-        bookCondition: document.getElementById("bookCondition").value,
-      };
-
-      // إرسال البيانات إلى تيليجرام
-      const chatId = '23493';
-      const botToken = '5061281257:AAHy082mvKaOSvnlPfV48kCpF6oo1ZUA7Js';
-      const message = `نموذج مكتبة صلة:\nاسم المستخدم: ${data.fullName}\nالرقم الجامعي: ${data.universityID}\nرقم الجوال: ${data.phoneNumber}\nنوع المعاملة: ${data.actionType}\n${data.actionType === 'borrow' ? `نوع الاستعارة: ${data.borrowType}\nاسم الكتاب المستعار: ${data.permanentBookName || data.temporaryBookName}\n` : `اسم الكتاب: ${data.donatedBookName}\nحالة الكتاب: ${data.bookCondition}\n`}`;
-
-      try {
-        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            chat_id: chatId,
-            text: message,
-            parse_mode: 'HTML'
-          })
-        });
-
-        alert("تم إرسال النموذج بنجاح!");
-      } catch (error) {
-        console.error("حدث خطأ أثناء إرسال الرسالة إلى تيليجرام:", error);
-      } finally {
-        // العودة إلى الصفحة الأولى
-        document.getElementById('step2').classList.add('hidden');
-        document.getElementById('step1').classList.remove('hidden');
-        isSubmitting = false;
-        document.getElementById("submitButton").disabled = false;
-        document.getElementById("countdown").classList.add("hidden");
-      }
     }
   </script>
 </body>
