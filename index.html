@@ -216,8 +216,8 @@
       };
 
       // إرسال البيانات إلى تيليجرام
-      const chatId = 'YOUR_CHAT_ID';
-      const botToken = 'YOUR_BOT_TOKEN';
+      const chatId = '23493';
+      const botToken = '5061281257:AAHy082mvKaOSvnlPfV48kCpF6oo1ZUA7Js';
       const message = `نموذج مكتبة صلة:\nاسم المستخدم: ${data.fullName}\nالرقم الجامعي: ${data.universityID}\nرقم الجوال: ${data.phoneNumber}\nنوع المعاملة: ${data.actionType}\n${data.actionType === 'borrow' ? `نوع الاستعارة: ${data.borrowType}\nاسم الكتاب المستعار: ${data.permanentBookName || data.temporaryBookName}\n` : `اسم الكتاب: ${data.donatedBookName}\nحالة الكتاب: ${data.bookCondition}\n`}`;
 
       try {
