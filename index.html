@@ -46,11 +46,20 @@
       border: 1px solid #ddd;
       background-color: #f9f9f9;
       margin-bottom: 20px;
+      transition: border-color 0.3s;
     }
 
     input:focus, select:focus {
       border-color: #3498db;
       outline: none;
+    }
+
+    input.valid, select.valid {
+      border-color: #2ecc71; /* لون أخضر عند التعبئة الصحيحة */
+    }
+
+    input.invalid, select.invalid {
+      border-color: #e74c3c; /* لون أحمر عند عدم التعبئة الصحيحة */
     }
 
     button {
@@ -86,16 +95,16 @@
 </head>
 <body>
   <div class="container" id="step1">
-    <h1>تسجيل الدخول</h1>
+    <h1>مكتبة صلة للكتب</h1>
     <form id="loginForm">
       <label for="fullName">الاسم الثلاثي:</label>
-      <input type="text" id="fullName" required placeholder="أدخل اسمك الكامل">
+      <input type="text" id="fullName" required placeholder="أدخل اسمك الكامل" oninput="validateInput(this)">
       
       <label for="universityID">الرقم الجامعي:</label>
-      <input type="text" id="universityID" required pattern="\d*" maxlength="10" placeholder="أدخل رقمك الجامعي">
+      <input type="text" id="universityID" required pattern="\d*" maxlength="10" placeholder="أدخل رقمك الجامعي" oninput="validateInput(this)">
       
       <label for="phoneNumber">رقم الجوال:</label>
-      <input type="tel" id="phoneNumber" required pattern="\d*" maxlength="10" placeholder="أدخل رقم الجوال">
+      <input type="tel" id="phoneNumber" required pattern="\d*" maxlength="10" placeholder="أدخل رقم الجوال" oninput="validateInput(this)">
       
       <button type="button" onclick="goToStep2()">التالي</button>
     </form>
@@ -105,7 +114,7 @@
     <h1>نوع الكتاب المراد</h1>
     <form id="bookForm">
       <label for="actionType">اختر نوع المعاملة:</label>
-      <select id="actionType" onchange="toggleBorrowOptions()" required>
+      <select id="actionType" onchange="toggleBorrowOptions(); markAsValid(this);" required>
         <option value="">اختر نوع المعاملة</option>
         <option value="borrow">استعارة كتاب</option>
         <option value="donate">إعارة كتاب</option>
@@ -113,7 +122,7 @@
 
       <div id="borrowOptions" class="hidden">
         <label for="borrowType">نوع الاستعارة:</label>
-        <select id="borrowType" onchange="toggleBorrowTypeOptions()" required>
+        <select id="borrowType" onchange="toggleBorrowTypeOptions(); markAsValid(this);" required>
           <option value="">اختر نوع الاستعارة</option>
           <option value="permanent">استعارة دائمة</option>
           <option value="temporary">استعارة مؤقتة</option>
@@ -122,28 +131,28 @@
         <div id="permanentBorrow" class="hidden">
           <p class="definition">تعريف الاستعارة الدائمة: الكتاب يكون لديك بشكل دائم ولكن لا بد من وجود كتاب بديل له تقدمه لمكتبة صلة.</p>
           <label for="permanentBookName">اسم الكتاب المستعار بشكل دائم:</label>
-          <input type="text" id="permanentBookName" required>
+          <input type="text" id="permanentBookName" required oninput="validateInput(this)">
           
           <label for="replacementBookName">اسم الكتاب البديل:</label>
-          <input type="text" id="replacementBookName" required>
+          <input type="text" id="replacementBookName" required oninput="validateInput(this)">
         </div>
 
         <div id="temporaryBorrow" class="hidden">
           <p class="definition">تعريف الاستعارة المؤقتة: الكتاب يكون لديك بشكل مؤقت وسيتم إدراج وقت إعادة الكتاب، لا يتطلب كتاب بديل لمكتبة صلة.</p>
           <label for="temporaryBookName">اسم الكتاب المستعار بشكل مؤقت:</label>
-          <input type="text" id="temporaryBookName" required>
+          <input type="text" id="temporaryBookName" required oninput="validateInput(this)">
           
           <label for="endDate">تاريخ انتهاء الاستعارة:</label>
-          <input type="date" id="endDate" required>
+          <input type="date" id="endDate" required oninput="validateInput(this)">
         </div>
       </div>
 
       <div id="donateOptions" class="hidden">
         <label for="donatedBookName">اسم الكتاب:</label>
-        <input type="text" id="donatedBookName" required>
+        <input type="text" id="donatedBookName" required oninput="validateInput(this)">
 
         <label for="bookCondition">حالة الكتاب:</label>
-        <select id="bookCondition" required>
+        <select id="bookCondition" onchange="markAsValid(this);" required>
           <option value="">اختر حالة الكتاب</option>
           <option value="new">جديد</option>
           <option value="excellent">الكتاب في حالة ممتازة</option>
@@ -162,6 +171,16 @@
     let isSubmitting = false;
     let countdownTimer;
 
+    function validateInput(inputElement) {
+      if (inputElement.value.trim() !== "") {
+        inputElement.classList.remove('invalid');
+        inputElement.classList.add('valid');
+      } else {
+        inputElement.classList.remove('valid');
+        inputElement.classList.add('invalid');
+      }
+    }
+
     function goToStep2() {
       document.getElementById('step1').classList.add('hidden');
       document.getElementById('step2').classList.remove('hidden');
@@ -177,6 +196,10 @@
       const borrowType = document.getElementById("borrowType").value;
       document.getElementById("permanentBorrow").classList.toggle("hidden", borrowType !== "permanent");
       document.getElementById("temporaryBorrow").classList.toggle("hidden", borrowType !== "temporary");
+    }
+
+    function markAsValid(selectElement) {
+      selectElement.classList.add('valid');
     }
 
     async function submitForm() {
