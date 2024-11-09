@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نموذج مكتبة صلة</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      direction: rtl;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      color: #34495e;
+      margin: 20px 0 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      margin-bottom: 20px;
+    }
+
+    input:focus, select:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container" id="step1">
+    <h1>تسجيل الدخول</h1>
+    <form id="loginForm">
+      <label for="fullName">الاسم الثلاثي:</label>
+      <input type="text" id="fullName" required placeholder="أدخل اسمك الكامل">
+      
+      <label for="universityID">الرقم الجامعي:</label>
+      <input type="text" id="universityID" required pattern="\d*" maxlength="10" placeholder="أدخل رقمك الجامعي">
+      
+      <label for="phoneNumber">رقم الجوال:</label>
+      <input type="tel" id="phoneNumber" required pattern="\d*" maxlength="10" placeholder="أدخل رقم الجوال">
+      
+      <button type="button" onclick="goToStep2()">التالي</button>
+    </form>
+  </div>
+
+  <div class="container hidden" id="step2">
+    <h1>نوع الكتاب المراد</h1>
+    <form id="bookForm">
+      <label for="actionType">اختر نوع المعاملة:</label>
+      <select id="actionType" onchange="toggleBorrowOptions()" required>
+        <option value="">اختر نوع المعاملة</option>
+        <option value="borrow">استعارة كتاب</option>
+        <option value="donate">إعارة كتاب</option>
+      </select>
+
+      <div id="borrowOptions" class="hidden">
+        <label for="borrowType">نوع الاستعارة:</label>
+        <select id="borrowType" onchange="toggleBorrowTypeOptions()" required>
+          <option value="">اختر نوع الاستعارة</option>
+          <option value="permanent">استعارة دائمة</option>
+          <option value="temporary">استعارة مؤقتة</option>
+        </select>
+
+        <div id="permanentBorrow" class="hidden">
+          <label for="permanentBookName">اسم الكتاب المستعار بشكل دائم:</label>
+          <input type="text" id="permanentBookName">
+          
+          <label for="replacementBookName">اسم الكتاب البديل:</label>
+          <input type="text" id="replacementBookName">
+        </div>
+
+        <div id="temporaryBorrow" class="hidden">
+          <label for="temporaryBookName">اسم الكتاب المستعار بشكل مؤقت:</label>
+          <input type="text" id="temporaryBookName">
+          
+          <label for="endDate">تاريخ انتهاء الاستعارة:</label>
+          <input type="date" id="endDate">
+        </div>
+      </div>
+
+      <div id="donateOptions" class="hidden">
+        <label for="donatedBookName">اسم الكتاب:</label>
+        <input type="text" id="donatedBookName">
+
+        <label for="bookCondition">حالة الكتاب:</label>
+        <select id="bookCondition">
+          <option value="">اختر حالة الكتاب</option>
+          <option value="new">جديد</option>
+          <option value="excellent">الكتاب في حالة ممتازة</option>
+          <option value="average">الكتاب متوسط الحالة</option>
+          <option value="damaged">الكتاب تالف</option>
+        </select>
+      </div>
+
+      <button type="button" onclick="submitForm()">إرسال</button>
+    </form>
+  </div>
+
+  <script>
+    function goToStep2() {
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('step2').classList.remove('hidden');
+    }
+
+    function toggleBorrowOptions() {
+      const actionType = document.getElementById("actionType").value;
+      document.getElementById("borrowOptions").classList.toggle("hidden", actionType !== "borrow");
+      document.getElementById("donateOptions").classList.toggle("hidden", actionType !== "donate");
+    }
+
+    function toggleBorrowTypeOptions() {
+      const borrowType = document.getElementById("borrowType").value;
+      document.getElementById("permanentBorrow").classList.toggle("hidden", borrowType !== "permanent");
+      document.getElementById("temporaryBorrow").classList.toggle("hidden", borrowType !== "temporary");
+    }
+
+    function submitForm() {
+      alert("تم إرسال النموذج بنجاح!");
+    }
+  </script>
+</body>
+</html>
