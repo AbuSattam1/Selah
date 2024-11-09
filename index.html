@@ -70,6 +70,18 @@
     }
 
     .hidden { display: none; }
+
+    .definition {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    #countdown {
+      font-size: 1.2rem;
+      color: #e74c3c;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -108,6 +120,7 @@
         </select>
 
         <div id="permanentBorrow" class="hidden">
+          <p class="definition">تعريف الاستعارة الدائمة: الكتاب يكون لديك بشكل دائم ولكن لا بد من وجود كتاب بديل له تقدمه لمكتبة صلة.</p>
           <label for="permanentBookName">اسم الكتاب المستعار بشكل دائم:</label>
           <input type="text" id="permanentBookName">
           
@@ -116,6 +129,7 @@
         </div>
 
         <div id="temporaryBorrow" class="hidden">
+          <p class="definition">تعريف الاستعارة المؤقتة: الكتاب يكون لديك بشكل مؤقت وسيتم إدراج وقت إعادة الكتاب، لا يتطلب كتاب بديل لمكتبة صلة.</p>
           <label for="temporaryBookName">اسم الكتاب المستعار بشكل مؤقت:</label>
           <input type="text" id="temporaryBookName">
           
@@ -138,11 +152,16 @@
         </select>
       </div>
 
-      <button type="button" onclick="submitForm()">إرسال</button>
+      <button type="button" id="submitButton" onclick="submitForm()">إرسال</button>
     </form>
+
+    <div id="countdown" class="hidden">يمكنك إرسال النموذج مرة أخرى بعد 10 ثواني...</div>
   </div>
 
   <script>
+    let isSubmitting = false;
+    let countdownTimer;
+
     function goToStep2() {
       document.getElementById('step1').classList.add('hidden');
       document.getElementById('step2').classList.remove('hidden');
@@ -160,9 +179,35 @@
       document.getElementById("temporaryBorrow").classList.toggle("hidden", borrowType !== "temporary");
     }
 
-    function submitForm() {
-      alert("تم إرسال النموذج بنجاح!");
-    }
-  </script>
-</body>
-</html>
+    async function submitForm() {
+      if (isSubmitting) return;
+
+      isSubmitting = true;
+      document.getElementById("submitButton").disabled = true;
+      document.getElementById("countdown").classList.remove("hidden");
+      let countdown = 10;
+      document.getElementById("countdown").textContent = `يمكنك إرسال النموذج مرة أخرى بعد ${countdown} ثواني...`;
+
+      // Countdown
+      countdownTimer = setInterval(function() {
+        countdown--;
+        document.getElementById("countdown").textContent = `يمكنك إرسال النموذج مرة أخرى بعد ${countdown} ثواني...`;
+        if (countdown <= 0) {
+          clearInterval(countdownTimer);
+          document.getElementById("submitButton").disabled = false;
+          document.getElementById("countdown").classList.add("hidden");
+          isSubmitting = false;
+        }
+      }, 1000);
+
+      // إعداد البيانات لارسالها
+      const data = {
+        actionType: document.getElementById("actionType").value,
+        borrowType: document.getElementById("borrowType") ? document.getElementById("borrowType").value : null,
+        fullName: document.getElementById("fullName").value,
+        universityID: document.getElementById("universityID").value,
+        phoneNumber: document.getElementById("phoneNumber").value,
+        permanentBookName: document.getElementById("permanentBookName") ? document.getElementById("permanentBookName").value : null,
+        replacementBookName: document.getElementById("replacementBookName") ? document.getElementById("replacementBookName").value : null,
+        temporaryBookName: document.getElementById("temporaryBookName") ? document.getElementById("temporaryBookName").value : null,
+        endDate: document.getElementById("endDate") ? document.getElementBy
